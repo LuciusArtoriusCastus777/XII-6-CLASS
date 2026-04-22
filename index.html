@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Class - SECHTUPLE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #3498db; 
+            --dark-bg: #011640; /* Warna biru tua utama kamu */
+            --light-bg: #ffffff;
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            text-align: center;
+            overflow-x: hidden;
+            background-color: var(--dark-bg);
+        }
+
+        /* --- NAVIGATION --- */
+        .hamburger-menu { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+        .menu-toggle {
+            background: white; color: #011640; width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: none; font-size: 24px;
+        }
+        .menu-items {
+            position: absolute; top: 60px; right: 0; background: rgba(1, 22, 64, 0.95);
+            backdrop-filter: blur(10px); border-radius: 15px; width: 200px; display: none;
+            flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .menu-items.show { display: flex; animation: fadeInMenu 0.3s ease; }
+        .menu-items a { color: white; text-decoration: none; padding: 15px 20px; font-size: 0.9rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; }
+
+        /* --- HEADER (WARNA SAMA DENGAN STRUKTUR KELAS) --- */
+        .hero-header { 
+            background-color: var(--dark-bg); /* SAMA DENGAN STRUKTUR KELAS */
+            color: white; 
+            padding: 80px 20px 40px 20px; 
+        }
+
+        .logo-kelas { width: 110px; height: 110px; border-radius: 50%; margin-bottom: 15px; object-fit: cover; border: 2px solid rgba(255,255,255,0.1); }
+        h1 { font-size: 2.2rem; font-weight: 800; }
+        .motto { opacity: 0.7; font-style: italic; font-size: 0.8rem; margin-top: 10px; line-height: 1.5; }
+        
+        .social-box { display: flex; justify-content: center; gap: 20px; margin: 25px 0; }
+        .icon-img { width: 35px; height: 35px; border-radius: 8px; }
+
+        .music-player { 
+            background: rgba(255,255,255,0.05); 
+            padding: 10px 20px; 
+            border-radius: 50px; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 15px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+        }
+
+        /* --- ABOUT US (WHITE) --- */
+        #about { background-color: var(--light-bg); color: #1a1a1a; padding: 80px 20px; }
+        .title-dark { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; border-left: 5px solid var(--dark-bg); padding-left: 15px; text-align: left; }
+
+        /* --- STRUCTURE (DARK) --- */
+        #structure { background-color: var(--dark-bg); color: white; padding: 80px 20px; }
+        .title-light { font-size: 1.5rem; font-weight: 800; margin-bottom: 30px; border-left: 5px solid var(--accent); padding-left: 15px; text-align: left; }
+        
+        .container { max-width: 600px; margin: auto; }
+        .structure-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        
+        .member-card { 
+            background: rgba(255,255,255,0.03); 
+            padding: 20px 10px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            text-align: center;
+            transition: 0.3s;
+        }
+        .member-card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); }
+
+        .member-img { width: 75px; height: 75px; border-radius: 15px; object-fit: cover; margin-bottom: 10px; border: 2px solid rgba(255,255,255,0.1); }
+        .member-name { font-size: 0.85rem; font-weight: 700; display: block; }
+        .member-role { font-size: 0.65rem; color: var(--accent); text-transform: uppercase; margin-top: 5px; }
+
+        /* --- PAGINATION --- */
+        .pagination { margin-top: 30px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .btn-page { background: rgba(255,255,255,0.1); border: none; color: white; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .btn-page.active { background: var(--accent); }
+        #page-numbers, #gallery-page-numbers { display: flex; gap: 8px; }
+
+        /* Khusus pagination galeri di section putih */
+        #gallery .btn-page { background: #eee; color: #333; }
+        #gallery .btn-page.active { background: var(--dark-bg); color: white; }
+
+        /* --- GALLERY (WHITE) --- */
+        #gallery { background-color: var(--light-bg); color: #1a1a1a; padding: 80px 20px; }
+        .gallery-card { border-radius: 20px; overflow: hidden; background: #f8f9fa; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: left; margin-bottom: 25px; }
+        .gallery-img { width: 100%; height: 230px; object-fit: cover; }
+
+        footer { padding: 50px 0; background: #f8f9fa; color: #999; font-size: 0.75rem; border-top: 1px solid #eee; }
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav class="hamburger-menu">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <div class="menu-items" id="navItems">
+            <a href="#home">🏠 Home</a>
+            <a href="#about">📅 About Us</a>
+            <a href="#structure">👥 Struktur Kelas</a>
+            <a href="#gallery">📸 Galeri Memori</a>
+        </div>
+    </nav>
+
+    <header id="home" class="hero-header">
+        <div class="container fade-in">
+            <img src="public/LOGOTUPLE.jpg" alt="Logo" class="logo-kelas">
+            <h1>WELCOME TO - XII 6</h1>
+            <p class="motto">"Dalam kebersamaan kami belajar, dalam kehilangan kami menguat, dan dalam persatuan kami bertahan."</p>
+            
+            <div class="social-box">
+                <a href="https://www.instagram.com/sechstuple?igsh=OWx3MWg0YmE0a3d2" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" class="icon-img" alt="Instagram">
+                </a>
+                <a href="https://www.tiktok.com/@sechstuplee35?_r=1&_t=ZS-95kegl0gp3x" target="_blank">
+                    <img src="public/TIKTOK.png" class="icon-img" alt="TikTok">
+                </a>
+            </div>
+
+            <div class="music-player">
+                <span id="musicStatus" style="font-size: 0.75rem;">🎵 biar enjoy</span>
+                <button onclick="toggleMusic()" style="background: white; border: none; padding: 6px 15px; border-radius: 20px; cursor: pointer; font-weight: 800; font-size: 10px; color: var(--dark-bg);">PLAY/PAUSE</button>
+                <audio id="classAudio" loop><source src="public/ONEPIECE.mp3" type="audio/mpeg"></audio>
+            </div>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container fade-in">
+            <h2 class="title-dark">About Us</h2>
+            <p style="line-height:1.8; text-align:justify; opacity:0.9;">SECHTUPLE adalah bukti bahwa kebersamaan lebih kuat dari segala perbedaan. Kami tumbuh dalam suka dan duka, ditempa oleh waktu, dan diperkuat oleh setiap tantangan yang kami hadapi bersama.</p>
+        </div>
+    </section>
+
+    <section id="structure">
+        <div class="container fade-in">
+            <h2 class="title-light">Struktur Kelas</h2>
+            <div id="member-container" class="structure-grid"></div>
+            
+            <div class="pagination">
+                <button onclick="prevPage()" class="btn-page">«</button>
+                <div id="page-numbers"></div>
+                <button onclick="nextPage()" class="btn-page">»</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div class="container fade-in">
+            <h2 class="title-dark">Memory Gallery</h2>
+            
+            <div id="gallery-container"></div>
+            
+            <div class="pagination">
+                <button onclick="prevGalleryPage()" class="btn-page">«</button>
+                <div id="gallery-page-numbers"></div>
+                <button onclick="nextGalleryPage()" class="btn-page">»</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>Dibuat dengan ❤️ oleh Ramos <br> © 2026 SECHTUPLE</footer>
+
+    <script>
+        const allMembers = [
+            { name: "Amoy Siti Maimunah", role: "Wali Kelas", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Rizki Maulana", role: "Ketua", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Bagas Maulana", role: "Wakil", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Fatikah", role: "Sekretaris I", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Rebecca", role: "Sekretaris II", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Alizha", role: "Bendahara I", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Keysha", role: "Bendahara II", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Rifky", role: "Kebersihan I", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Zepanya", role: "Kebersihan II", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Hasbi", role: "Sesi Olga I", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Bara", role: "Sesi Olga II", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Naufal", role: "Keamanan I", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Firdan", role: "Keamanan II", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Julita", role: "Keagamaan I", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Yauzan", role: "Keagamaan II", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Siswa 12", role: "Anggota", img: "https://via.placeholder.com/100", ig: "#" },
+            { name: "Rama Mardian", role: "Anggota", img: "public/rama m.jpg", ig: "https://www.instagram.com/psychicnghty?igsh=MTVnN25ydG9zbm8xZQ==" },
+        ];
+
+        // --- DATA GALLERY ---
+        const allPhotos = [
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+            { title: "Momen Pertama kali", desc: "Keterangan memori kelas kalian yang tak terlupakan.", img: "public/SOLID.JPG" },
+
+        ];
+
+        let currentPage = 1;
+        const membersPerPage = 6;
+
+        let currentGalleryPage = 1;
+        const photosPerPage = 5; // Tampil 5 foto ke bawah
+
+        function displayMembers() {
+            const container = document.getElementById('member-container');
+            const pageNumbers = document.getElementById('page-numbers');
+            container.innerHTML = ""; pageNumbers.innerHTML = "";
+            let start = (currentPage - 1) * membersPerPage;
+            let end = start + membersPerPage;
+            let items = allMembers.slice(start, end);
+
+            items.forEach(m => {
+                container.innerHTML += `
+                    <a href="${m.ig}" target="_blank" style="text-decoration: none; color: inherit;">
+                        <div class="member-card">
+                            <img src="${m.img}" class="member-img">
+                            <span class="member-name">${m.name}</span>
+                            <span class="member-role">${m.role}</span>
+                        </div>
+                    </a>`;
+            });
+
+            let totalPages = Math.ceil(allMembers.length / membersPerPage);
+            for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.innerHTML += `<button onclick="goToPage(${i})" class="btn-page ${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+        }
+
+        function displayGallery() {
+            const container = document.getElementById('gallery-container');
+            const pageNumbers = document.getElementById('gallery-page-numbers');
+            container.innerHTML = ""; pageNumbers.innerHTML = "";
+
+            let start = (currentGalleryPage - 1) * photosPerPage;
+            let end = start + photosPerPage;
+            let items = allPhotos.slice(start, end);
+
+            items.forEach(p => {
+                container.innerHTML += `
+                    <div class="gallery-card fade-in">
+                        <img src="${p.img}" class="gallery-img">
+                        <div style="padding:20px;">
+                            <h3 style="color: var(--dark-bg);">${p.title}</h3>
+                            <p style="font-size:0.85rem; opacity:0.7; margin-top:5px;">${p.desc}</p>
+                        </div>
+                    </div>`;
+            });
+
+            let totalPages = Math.ceil(allPhotos.length / photosPerPage);
+            for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.innerHTML += `<button onclick="goToGalleryPage(${i})" class="btn-page ${i === currentGalleryPage ? 'active' : ''}">${i}</button>`;
+            }
+        }
+
+        // Fungsi Navigasi Struktur
+        function goToPage(p) { currentPage = p; displayMembers(); }
+        function nextPage() { if(currentPage < Math.ceil(allMembers.length/membersPerPage)) { currentPage++; displayMembers(); }}
+        function prevPage() { if(currentPage > 1) { currentPage--; displayMembers(); }}
+
+        // Fungsi Navigasi Gallery
+        function goToGalleryPage(p) { currentGalleryPage = p; displayGallery(); }
+        function nextGalleryPage() { if(currentGalleryPage < Math.ceil(allPhotos.length/photosPerPage)) { currentGalleryPage++; displayGallery(); }}
+        function prevGalleryPage() { if(currentGalleryPage > 1) { currentGalleryPage--; displayGallery(); }}
+
+        displayMembers();
+        displayGallery();
+
+        function toggleMenu() { document.getElementById('navItems').classList.toggle('show'); }
+        const audio = document.getElementById('classAudio');
+        function toggleMusic() {
+            if (audio.paused) { audio.play(); document.getElementById('musicStatus').innerText = "🎶 Playing..."; }
+            else { audio.pause(); document.getElementById('musicStatus').innerText = "🎵 Paused"; }
+        }
+    </script>
+</body>
+</html>
